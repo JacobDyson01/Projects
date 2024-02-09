@@ -1,16 +1,46 @@
-# This is a sample Python script.
+import TaskManager as Task
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    print("Welcome")
+    taskList = {}
+    while True:
+        input1 = input("How can I help?: ")
+        full_command = input1.split(":")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        command = full_command[0].strip().upper()
+        if len(full_command) == 2:
+            string = full_command[1].strip()
+        else:
+            string = ''
+
+        if command == 'ADD':
+            name = string
+            text = input("Enter task description: ")
+            task = Task.Task(name, text)
+            taskList[name] = task
+            print(f"Task '{name}' added successfully.")
+        elif command == 'UPDATE':
+            name = string
+            if name not in taskList.keys():
+                print(f"Task '{name}' not found.")
+                continue
+            text = input("Enter new task description: ")
+            taskList[name].setText(text)
+            print(f"Task '{name}' updated successfully.")
+        elif command == "QUIT":
+            break
+        elif command == "DELETE":
+            if string in taskList:
+                del taskList[string]
+                print(f"Task '{string}' deleted successfully.")
+            else:
+                print("Task not found.")
+        elif command == "VIEW":
+            for task_name, task_obj in taskList.items():
+                print(f"Task: {task_name}, Description: {task_obj.getText()}\n")
+        else:
+            print("Invalid command.")
+        """
+        TODO: Add more functionality of the client: commands such as sort, complete, due dates, Add a GUI support?
+        """
+    print("GoodBye")
